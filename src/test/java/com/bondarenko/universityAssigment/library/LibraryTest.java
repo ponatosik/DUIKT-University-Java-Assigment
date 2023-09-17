@@ -9,73 +9,73 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
     Library library;
-    List<Book> libraryBooks;
+    List<Item> libraryItems;
     Book uniqueBook;
 
     @BeforeEach
     void setUp() {
         uniqueBook = new Book("1984 (Nineteen Eighty-Four)", " George Orwell", "978-0241453513", 1949);
-        libraryBooks = List.of(
+        libraryItems = List.of(
                 new Book("Harry Potter and the Sorcerer's Stone", " J.K. Rowling", "978-1338878929", 1998),
                 new Book("Java For Kids", " J.K. Rowling", "978-1981597314", 2017),
                 new Book("The Lord Of The Rings", " J.R.R. Tolkien", "978-0544003415", 1954)
         );
-        library = new Library(libraryBooks);
+        library = new Library(libraryItems);
     }
 
     @Test
     void Add_ValidBook_ShouldChangeSize() {
-        int sizeBefore = library.getBooks().size();
+        int sizeBefore = library.getItems().size();
 
         library.add(uniqueBook);
-        int sizeAfter = library.getBooks().size();
+        int sizeAfter = library.getItems().size();
 
         assertEquals(sizeBefore + 1, sizeAfter);
     }
 
     @Test
-    void GetBooks_NotEmptyLibrary_ShouldReturnBooks() {
+    void GetItems_NotEmptyLibrary_ShouldReturnBooks() {
 
-        var actual = library.getBooks();
+        var actual = library.getItems();
 
-        assertArrayEquals(actual.toArray(), libraryBooks.toArray());
+        assertArrayEquals(actual.toArray(), libraryItems.toArray());
     }
 
     @Test
-    void FindByName_ExistingBook_ShouldReturnBook() {
-        var bookName = uniqueBook.getName();
+    void FindById_ExistingBook_ShouldReturnBook() {
+        var bookId = uniqueBook.getUniqueID();
         library.add(uniqueBook);
 
-        var actual = library.findByName(bookName);
+        var actual = library.findById(bookId);
 
         assertTrue(actual.isPresent());
         assertEquals(actual.get(), uniqueBook);
     }
 
     @Test
-    void FindByName_NotExistingBook_ShouldReturnEmptyOptional() {
-        var bookName = "This book does not exist. I hope so";
+    void FindById_NotExistingBook_ShouldReturnEmptyOptional() {
+        var bookName = "This book ID does not exist. I hope so";
 
-        var actual = library.findByName(bookName);
+        var actual = library.findById(bookName);
 
         assertFalse(actual.isPresent());
     }
 
     @Test
-    void RemoveByIsbn_ExistingBook_ShouldReturnTrue() {
-        var bookIsbn = uniqueBook.getIsbn();
+    void RemoveById_ExistingBook_ShouldReturnTrue() {
+        var bookIsbn = uniqueBook.getUniqueID();
         library.add(uniqueBook);
 
-        var actual = library.removeByIsbn(bookIsbn);
+        var actual = library.removeById(bookIsbn);
 
         assertTrue(actual);
     }
 
     @Test
-    void RemoveByIsbn_NotExistingBook_ShouldReturnFalse() {
-        var bookIsbn = "Invalid isbn. I hope so";
+    void RemoveById_NotExistingBook_ShouldReturnFalse() {
+        var bookId = "This book ID does not exist. I hope so";
 
-        var actual = library.removeByIsbn(bookIsbn);
+        var actual = library.removeById(bookId);
 
         assertFalse(actual);
     }

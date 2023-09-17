@@ -6,29 +6,29 @@ import java.util.List;
 import java.util.Optional;
 
 public class Library {
-    private final List<Book> books;
+    private final List<Item> items;
 
     public Library() {
-        this.books = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
-    public Library(List<Book> books) {
-        this.books = new ArrayList<>(books);
+    public Library(List<Item> items) {
+        this.items = new ArrayList<>(items);
     }
 
-    public void add(Book book){
-        books.add(book);
+    public void add(Item item){
+        items.add(item);
     }
 
-    public List<Book> getBooks(){
-        return Collections.unmodifiableList(books);
+    public List<Item> getItems() {
+        return Collections.unmodifiableList(items);
     }
 
-    public Optional<Book> findByName(String name) {
-        return books.stream().filter(book -> book.getName().equals(name)).findAny();
+    public Optional<Item> findById(String id) {
+        return items.stream().filter(item -> item.getUniqueID().equals(id)).findAny();
     }
 
-    public boolean removeByIsbn(String isbn){
-        return books.removeIf(book -> book.getIsbn().equals(isbn));
+    public boolean removeById(String id) {
+        return items.removeIf(item -> item.getUniqueID().equals(id));
     }
 }
