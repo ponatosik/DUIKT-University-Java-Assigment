@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Library {
     private final List<Item> items;
@@ -26,6 +27,32 @@ public class Library {
 
     public void registerPatron(Patron patron) {
         patrons.add(patron);
+    }
+
+    public void lendItem(Patron patron, Item item) throws UnknownPatronException, ItemCannotBeBorrowedException {
+        if(!patrons.contains(patron)) {
+            throw new UnknownPatronException("This patron is not registered in the library");
+        }
+
+        patron.borrowItem(item);
+        item.borrowItem();
+    }
+
+    public void returnItem(Patron patron, Item item) throws UnknownPatronException {
+        if(!patrons.contains(patron)) {
+            throw new UnknownPatronException("This patron is not registered in the library");
+        }
+
+        patron.returnItem(item);
+        item.returnItem();
+    }
+
+    public List<Item> listAvailable() {
+        return items.stream().filter(Predicate.not(Item::isBorrowed)).toList();
+    }
+
+    public List<Item> listBorrowed() {
+        return items.stream().filter(Item::isBorrowed).toList();
     }
 
     public void add(Item item){
