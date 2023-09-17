@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class Library {
+public class Library implements Manageable<Item> {
     private final List<Item> items;
     private final List<Patron> patrons;
 
@@ -57,6 +57,10 @@ public class Library {
 
     public void add(Item item){
         items.add(item);
+    }
+
+    public boolean remove(Item item) {
+        return items.remove(item);
     }
 
     public List<Item> getItems() {
