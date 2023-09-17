@@ -1,20 +1,19 @@
 package com.bondarenko.universityAssigment.library;
 
-public class Book {
-    private final String name;
+public class Book extends Item{
     private final String author;
     private final String isbn;
     private final int publishingYear;
 
     public Book(String name, String author, String isbn, int publishingYear) {
-        this.name = name;
+        super(name);
         this.author = author;
         this.isbn = isbn;
         this.publishingYear = publishingYear;
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
     public String getAuthor() {
