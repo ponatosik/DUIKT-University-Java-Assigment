@@ -47,6 +47,16 @@ public class Library implements Manageable<Item> {
         item.returnItem();
     }
 
+    public Optional<Patron> getItemBorrower (Item item) throws UnknownPatronException {
+        if(!listBorrowed().contains(item)) {
+            return Optional.empty();
+        }
+
+        Optional<Patron> itemBorrower = patrons.stream().filter(patron -> patron.getBorrowedItems().contains(item)).findAny();
+        itemBorrower.orElseThrow(() -> new UnknownPatronException("Item borrower is not registered"));
+        return itemBorrower;
+    }
+
     public List<Item> listAvailable() {
         return items.stream().filter(Predicate.not(Item::isBorrowed)).toList();
     }

@@ -1,6 +1,7 @@
 package com.bondarenko.universityAssigment.library;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,10 @@ public class Patron {
         this.name = name;
         this.id = uuid.toString();
         borrowedItems = new ArrayList<>();
+    }
+
+    public List<Item> getBorrowedItems() {
+        return Collections.unmodifiableList(borrowedItems);
     }
 
     public void borrowItem(Item item) {
