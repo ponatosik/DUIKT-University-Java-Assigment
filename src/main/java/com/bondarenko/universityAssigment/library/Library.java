@@ -7,13 +7,25 @@ import java.util.Optional;
 
 public class Library {
     private final List<Item> items;
+    private final List<Patron> patrons;
 
     public Library() {
         this.items = new ArrayList<>();
+        this.patrons = new ArrayList<>();
     }
 
     public Library(List<Item> items) {
         this.items = new ArrayList<>(items);
+        this.patrons = new ArrayList<>();
+    }
+
+    public Library(List<Item> items, List<Patron> patrons) {
+        this.items = new ArrayList<>(items);
+        this.patrons = new ArrayList<>(patrons);
+    }
+
+    public void registerPatron(Patron patron) {
+        patrons.add(patron);
     }
 
     public void add(Item item){
