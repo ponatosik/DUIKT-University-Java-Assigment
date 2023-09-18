@@ -1,6 +1,8 @@
-package com.bondarenko.universityAssigment.library;
+package com.bondarenko.universityAssigment.lab2.items;
 
-public class Book extends Item{
+import com.bondarenko.universityAssigment.lab2.Item;
+
+public class Book extends Item {
     private final String author;
     private final String isbn;
     private final int publishingYear;

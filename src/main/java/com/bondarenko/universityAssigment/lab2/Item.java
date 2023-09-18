@@ -1,4 +1,6 @@
-package com.bondarenko.universityAssigment.library;
+package com.bondarenko.universityAssigment.lab2;
+
+import com.bondarenko.universityAssigment.lab2.exceptions.ItemCannotBeBorrowedException;
 
 import java.util.UUID;
 

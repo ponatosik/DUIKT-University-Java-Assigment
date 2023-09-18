@@ -1,4 +1,4 @@
-package com.bondarenko.universityAssigment.library;
+package com.bondarenko.universityAssigment.lab2.exceptions;
 
 public class ItemCannotBeBorrowedException extends RuntimeException {
     public ItemCannotBeBorrowedException(String errorMessage) {

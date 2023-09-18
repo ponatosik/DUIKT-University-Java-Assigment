@@ -1,4 +1,6 @@
-package com.bondarenko.universityAssigment.library;
+package com.bondarenko.universityAssigment.lab2.items;
+
+import com.bondarenko.universityAssigment.lab2.Item;
 
 public class DVD extends Item {
     /** DVD video duration (in minutes) */

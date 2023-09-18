@@ -1,4 +1,7 @@
-package com.bondarenko.universityAssigment.library;
+package com.bondarenko.universityAssigment.lab2;
+
+import com.bondarenko.universityAssigment.lab2.items.*;
+import com.bondarenko.universityAssigment.lab2.exceptions.*;
 
 import java.util.List;
 import java.util.function.Predicate;

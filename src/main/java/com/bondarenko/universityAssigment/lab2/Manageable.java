@@ -1,4 +1,4 @@
-package com.bondarenko.universityAssigment.library;
+package com.bondarenko.universityAssigment.lab2;
 
 import java.util.List;
 
