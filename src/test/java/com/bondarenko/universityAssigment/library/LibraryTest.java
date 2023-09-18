@@ -96,7 +96,7 @@ class LibraryTest {
     }
 
     @Test
-    void LendItem_ValidPatronAndItem_ShouldMakeItemBorrowed() throws UnknownPatronException, ItemCannotBeBorrowedException {
+    void LendItem_ValidPatronAndItem_ShouldMakeItemBorrowed() {
         var patron = new Patron("Olexandr");
         library.registerPatron(patron);
         library.add(uniqueBook);
@@ -115,7 +115,7 @@ class LibraryTest {
     }
 
     @Test
-    void LendItem_BorrowedItem_ShouldThrowItemCannotBeBorrowedException() throws UnknownPatronException, ItemCannotBeBorrowedException {
+    void LendItem_BorrowedItem_ShouldThrowItemCannotBeBorrowedException() {
         var patron1 = new Patron("Patron1");
         var patron2 = new Patron("Patron2");
         library.registerPatron(patron1);
@@ -128,7 +128,7 @@ class LibraryTest {
     }
 
     @Test
-    void ReturnItem_ValidPatronAndItem_ShouldMakeItemNotBorrowed() throws UnknownPatronException, ItemCannotBeBorrowedException {
+    void ReturnItem_ValidPatronAndItem_ShouldMakeItemNotBorrowed() {
         var patron = new Patron("Olexandr");
         library.registerPatron(patron);
         library.add(uniqueBook);
@@ -140,7 +140,7 @@ class LibraryTest {
     }
 
     @Test
-    void ListAvailable_ValidPatronAndItem_ShouldReturnNotBorrowedItems() throws ItemCannotBeBorrowedException {
+    void ListAvailable_ValidPatronAndItem_ShouldReturnNotBorrowedItems() {
         var borrowedItem = uniqueBook;
         uniqueBook.borrowItem();
         library.add(borrowedItem);
@@ -152,7 +152,7 @@ class LibraryTest {
     }
 
     @Test
-    void ListBorrowed_ValidPatronAndItem_ShouldReturnBorrowedItems() throws ItemCannotBeBorrowedException {
+    void ListBorrowed_ValidPatronAndItem_ShouldReturnBorrowedItems() {
         var borrowedItem = uniqueBook;
         uniqueBook.borrowItem();
         library.add(borrowedItem);
@@ -164,7 +164,7 @@ class LibraryTest {
     }
 
     @Test
-    void GetItemBorrower_BorrowedItem_ReturnsPatronThatBorrowedItem() throws UnknownPatronException, ItemCannotBeBorrowedException {
+    void GetItemBorrower_BorrowedItem_ReturnsPatronThatBorrowedItem() {
         var actual = new Patron("Olexandr");
         library.registerPatron(actual);
         library.add(uniqueBook);

@@ -1,6 +1,6 @@
 package com.bondarenko.universityAssigment.library;
 
-public class ItemCannotBeBorrowedException extends Exception {
+public class ItemCannotBeBorrowedException extends RuntimeException {
     public ItemCannotBeBorrowedException(String errorMessage) {
         super(errorMessage);
     }

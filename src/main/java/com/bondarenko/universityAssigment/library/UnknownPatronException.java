@@ -1,6 +1,6 @@
 package com.bondarenko.universityAssigment.library;
 
-public class UnknownPatronException extends Exception {
+public class UnknownPatronException extends RuntimeException {
     public UnknownPatronException(String errorMessage) {
         super(errorMessage);
     }
