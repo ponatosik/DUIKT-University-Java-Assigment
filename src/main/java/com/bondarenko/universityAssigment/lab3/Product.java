@@ -11,6 +11,10 @@ public class Product {
         this.price = price;
     }
 
+    public Product(Product product, int id) {
+        this(id, product.name, product.price);
+    }
+
     public int getId() {
         return id;
     }

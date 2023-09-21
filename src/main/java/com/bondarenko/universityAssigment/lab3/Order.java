@@ -1,20 +1,27 @@
 package com.bondarenko.universityAssigment.lab3;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Order {
-    public enum OrderStatus {
+    public enum Status {
         CREATED, IN_PROGRESS, COMPLETED, CANCELED
     }
 
     private final int id;
     private final List<Product> products;
-    private OrderStatus orderStatus;
+    private Status status;
 
     public Order(int id, List<Product> products) {
         this.id = id;
         this.products = Collections.unmodifiableList(products);
+        this.status = Status.CREATED;
+    }
+    public Order(Order order) {
+        this.id = order.id;
+        this.products = new ArrayList<>(order.products);
+        this.status = order.status;
     }
 
     public int getId() {
@@ -25,11 +32,11 @@ public class Order {
         return products;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setStatus(Status Status) {
+        this.status = Status;
     }
 }
