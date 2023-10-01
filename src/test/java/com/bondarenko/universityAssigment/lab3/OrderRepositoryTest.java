@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class OrderRepositoryTest {
     OrderRepository repository;
     Product[] repoProducts;
     List<Product> validProducts;
-    Cart cart;
 
     @BeforeEach
     void setUp() {
@@ -25,7 +25,6 @@ class OrderRepositoryTest {
                 repoProducts[0],
                 repoProducts[1]
         ));
-        cart = new Cart();
     }
 
     @Test
@@ -51,34 +50,38 @@ class OrderRepositoryTest {
 
     @Test
     void MakeOrder_ValidCart_ShouldReturnOrderOfProducts() {
-        cart.addProducts(validProducts);
+        Cart cartMock = mock(Cart.class);
+        when(cartMock.getProducts()).thenReturn(validProducts);
 
-        var actual = repository.makeOrder(cart).getProducts();
+        var actual = repository.makeOrder(cartMock).getProducts();
 
         assertArrayEquals(validProducts.toArray(), actual.toArray());
     }
 
     @Test
     void MakeOrder_ValidCart_ShouldBeSavedInRepoOrders() {
-        cart.addProducts(validProducts);
+        Cart cartMock = mock(Cart.class);
+        when(cartMock.getProducts()).thenReturn(validProducts);
 
-        var actual = repository.makeOrder(cart);
+        var actual = repository.makeOrder(cartMock);
 
         assertTrue(repository.getOrders().contains(actual));
     }
 
     @Test
     void MakeOrder_InvalidCart_ShouldBeSavedInRepoOrders() {
-        cart.addProduct(new Product(0, "Unregistered product", 0));
+        Cart cartMock = mock(Cart.class);
+        when(cartMock.getProducts()).thenReturn(List.of(new Product(0, "Unregistered product", 0)));
 
-        assertThrows(UnknownProductException.class, () -> repository.makeOrder(cart));
+        assertThrows(UnknownProductException.class, () -> repository.makeOrder(cartMock));
     }
 
     @Test
     void UpdateOrderStatus_ValidOrder_ShouldUpdateOrderStatus() {
+        Cart cartMock = mock(Cart.class);
+        when(cartMock.getProducts()).thenReturn(validProducts);
         var expectedStatus = Order.Status.CANCELED;
-        cart.addProducts(validProducts);
-        var order = repository.makeOrder(cart);
+        var order = repository.makeOrder(cartMock);
 
         repository.updateOrderStatus(order.getId(), expectedStatus);
 
