@@ -3,6 +3,8 @@ package com.bondarenko.universityAssigment.lab4;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,6 +25,20 @@ public class JavaDecoder {
 
     public static String decodeConsonants (String word) {
         return decode(word, CONSONANT_CODES);
+    }
+
+    public static boolean isVowelsEncoded (String word) {
+        return testDecoder(word, VOWEL_CODES);
+    }
+
+    public static boolean isConsonantsEncoded (String word) {
+        return testDecoder(word, CONSONANT_CODES);
+    }
+
+    public static boolean testDecoder(String word, Map<Character, Character> codes) {
+        Pattern pattern = getRegex(codes);
+        Matcher matcher = pattern.matcher(word);
+        return matcher.matches();
     }
 
     private static String decode (String word, Map<Character, Character> codes) {
@@ -52,6 +68,14 @@ public class JavaDecoder {
                 consonant -> CONSONANTS.get((CONSONANTS.indexOf(consonant) + 1) % CONSONANTS.size() ),
                 consonant -> consonant
         ));
+    }
+
+    private static Pattern getRegex (Map<Character, Character> codes) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(".*[");
+        codes.keySet().forEach(builder::append);
+        builder.append("]+.*");
+        return Pattern.compile(builder.toString());
     }
 
     private static char digitToChar(int digit) {
