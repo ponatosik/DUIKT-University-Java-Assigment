@@ -3,8 +3,10 @@ package com.bondarenko.universityAssigment.lab4;
 import com.bondarenko.universityAssigment.lab4.DecodeMethods.CaesarCipherDecoder;
 import com.bondarenko.universityAssigment.lab4.DecodeMethods.RankCipherDecoder;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -28,6 +30,12 @@ public class JavaDecoder {
             return consonantDecoder.decode(word);
         }
         return word;
+    }
+
+    public static String decodeText(String text) {
+        return Arrays.stream(text.split("\\s"))
+                .map(JavaDecoder::decode)
+                .collect( Collectors.joining( " " ) );
     }
 
     public static boolean isEncoded(String word) {
