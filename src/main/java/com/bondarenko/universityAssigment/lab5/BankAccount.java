@@ -8,14 +8,14 @@ public class BankAccount {
     private String accountName;
     private BigDecimal balance;
 
-    public BankAccount(int accountNumber, String accountName, BigDecimal balance) {
+    public BankAccount(int accountNumber, String accountName, double balance) {
         this.accountNumber = accountNumber;
         this.accountName = accountName;
-        this.balance = balance;
+        this.balance = new BigDecimal(balance);
     }
 
     public BankAccount(int accountNumber, String accountName) {
-        this(accountNumber, accountName, new BigDecimal(0));
+        this(accountNumber, accountName, 0);
     }
 
     public void deposit(double amount) {
@@ -28,6 +28,10 @@ public class BankAccount {
 
     public double getBalance() {
         return balance.doubleValue();
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
     }
 
     public String getAccountSummary() {

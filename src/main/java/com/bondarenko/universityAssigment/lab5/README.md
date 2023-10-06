@@ -14,10 +14,10 @@
     - [x] `InsufficientFundsException` 
     - [x] `NegativeAmountException` 
     - [x] `AccountNotFoundException`
-4. [ ] Реалізуйте клас Bank, який зберігає колекцію об'єктів `BankAccount`. 
-5. [ ] У класі `Bank`, реалізуйте методи:
-    - [ ] `createAccount(String accountName, double initialDeposit)`
-    - [ ] `findAccount(int accountNumber)`
-    - [ ] `transferMoney(int fromAccountNumber, int toAccountNumber, double amount)`
+4. [x] Реалізуйте клас `Bank`, який зберігає колекцію об'єктів `BankAccount`. 
+5. [x] У класі `Bank`, реалізуйте методи:
+    - [x] `createAccount(String accountName, double initialDeposit)`
+    - [x] `findAccount(int accountNumber)`
+    - [x] `transferMoney(int fromAccountNumber, int toAccountNumber, double amount)`
 6. [ ] Обробляйте винятки відповідно в кожному методі. 
 7. [ ] Створіть тестові класи, де ви моделюєте різні сценарії для тестування обробки виняткових ситуацій.
