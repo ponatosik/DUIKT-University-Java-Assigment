@@ -8,8 +8,8 @@
 
 ## Вимоги
 
-1. [ ] Реалізуйте клас `BankAccount` з членами класу `accountNumber`, `accountName` і `balance`. 
-2. [ ] Реалізуйте методи `deposit(double amount)`, `withdraw(double amount)`, `getBalance()` та `getAccountSummary()`. 
+1. [x] Реалізуйте клас `BankAccount` з членами класу `accountNumber`, `accountName` і `balance`. 
+2. [x] Реалізуйте методи `deposit(double amount)`, `withdraw(double amount)`, `getBalance()` та `getAccountSummary()`. 
 3. [ ] Створіть спеціалізовані класи винятків:
     - [ ] `InsufficientFundsException` 
     - [ ] `NegativeAmountException` 
