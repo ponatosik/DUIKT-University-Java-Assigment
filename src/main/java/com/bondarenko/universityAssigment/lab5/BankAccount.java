@@ -1,9 +1,11 @@
 package com.bondarenko.universityAssigment.lab5;
 
+import com.bondarenko.universityAssigment.lab5.exceptions.InsufficientFundsException;
+import com.bondarenko.universityAssigment.lab5.exceptions.NegativeAmountException;
+
 import java.math.BigDecimal;
 
 public class BankAccount {
-    // Реалізуйте клас `BankAccount` з членами класу `accountNumber`, `accountName` і `balance`.
     private final int accountNumber;
     private String accountName;
     private BigDecimal balance;
@@ -18,11 +20,22 @@ public class BankAccount {
         this(accountNumber, accountName, 0);
     }
 
-    public void deposit(double amount) {
+    public void deposit(double amount) throws NegativeAmountException {
+        if (amount < 0) {
+            throw new NegativeAmountException("Deposit amount cannot be negative");
+        }
+
         balance = balance.add(new BigDecimal(amount));
     }
 
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws NegativeAmountException, InsufficientFundsException {
+        if (amount < 0) {
+            throw new NegativeAmountException("Withdraw amount cannot be negative");
+        }
+        if (amount > balance.doubleValue()) {
+            throw new InsufficientFundsException("Insufficient funds to withdraw " + amount);
+        }
+
         balance = balance.subtract(new BigDecimal(amount));
     }
 
@@ -35,7 +48,7 @@ public class BankAccount {
     }
 
     public String getAccountSummary() {
-        return "Bank account " +  accountName + " (" + accountNumber + "), balance: " + balance;
+        return "Bank account " + accountName + " (" + accountNumber + "), balance: " + balance;
     }
 
     @Override

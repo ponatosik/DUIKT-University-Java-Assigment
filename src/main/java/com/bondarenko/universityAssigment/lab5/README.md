@@ -19,5 +19,5 @@
     - [x] `createAccount(String accountName, double initialDeposit)`
     - [x] `findAccount(int accountNumber)`
     - [x] `transferMoney(int fromAccountNumber, int toAccountNumber, double amount)`
-6. [ ] Обробляйте винятки відповідно в кожному методі. 
+6. [x] Обробляйте винятки відповідно в кожному методі. 
 7. [ ] Створіть тестові класи, де ви моделюєте різні сценарії для тестування обробки виняткових ситуацій.
