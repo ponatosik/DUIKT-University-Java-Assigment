@@ -10,10 +10,10 @@
 
 1. [x] Реалізуйте клас `BankAccount` з членами класу `accountNumber`, `accountName` і `balance`. 
 2. [x] Реалізуйте методи `deposit(double amount)`, `withdraw(double amount)`, `getBalance()` та `getAccountSummary()`. 
-3. [ ] Створіть спеціалізовані класи винятків:
-    - [ ] `InsufficientFundsException` 
-    - [ ] `NegativeAmountException` 
-    - [ ] `AccountNotFoundException`
+3. [x] Створіть спеціалізовані класи винятків:
+    - [x] `InsufficientFundsException` 
+    - [x] `NegativeAmountException` 
+    - [x] `AccountNotFoundException`
 4. [ ] Реалізуйте клас Bank, який зберігає колекцію об'єктів `BankAccount`. 
 5. [ ] У класі `Bank`, реалізуйте методи:
     - [ ] `createAccount(String accountName, double initialDeposit)`
