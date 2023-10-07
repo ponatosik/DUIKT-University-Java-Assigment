@@ -21,3 +21,13 @@
     - [x] `transferMoney(int fromAccountNumber, int toAccountNumber, double amount)`
 6. [x] Обробляйте винятки відповідно в кожному методі. 
 7. [x] Створіть тестові класи, де ви моделюєте різні сценарії для тестування обробки виняткових ситуацій.
+
+# Опис роботи
+
+1. Реалізовано клас [BankAccount.java](BankAccount.java) з полями `accountNumber`, `accountName` і `balance` та методами доступу до них. 
+   Розроблено методи для виконання дій над балансом `deposit(double amount)`, `withdraw(double amount)`
+2. Реалізовано клас [Bank.java](Bank.java) для створення акаунтів, та проведення банківських операцій
+3. Розроблені помилки що показують, що операція не пройшла успішно.
+   - [AccountNotFoundException.java](exceptions/AccountNotFoundException.java) - означає що вказаний акаунт не існує.
+   - [InsufficientFundsException.java](exceptions/InsufficientFundsException.java) - означає ща на балансі недостатньо коштів для проведення операції.
+   - [NegativeAmountException.java](exceptions/NegativeAmountException.java) - означає що операція не підтримує від'ємні значення.
