@@ -1,5 +1,7 @@
 package com.bondarenko.universityAssigment.lab6;
 
+import java.util.Arrays;
+
 public class Theater {
     private final int halls;
     private final int rows;
@@ -35,6 +37,19 @@ public class Theater {
         return theaterData[hallNumber][row][seat] == 1;
     }
 
+    public boolean checkAvailability(int hallNumber, int row, int numSeats){
+        int[] rowData = getRowData(hallNumber, row);
+        int consecutiveCounter = 0;
+
+        for (int i = 0; i < seats; i++) {
+            consecutiveCounter = rowData[i] == 0 ? consecutiveCounter + 1 : 0;
+            if(consecutiveCounter == numSeats){
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private int[][] getHallData(int hall){
         return theaterData[hall];
