@@ -1,6 +1,7 @@
 package com.bondarenko.universityAssigment.lab6;
 
-import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Theater {
     private final int halls;
@@ -49,6 +50,16 @@ public class Theater {
         }
 
         return false;
+    }
+
+    public void printSeatingArrangement(int hallNumber){
+        Integer[][] tableData = Stream.of(getHallData(hallNumber))
+                .map(array -> IntStream.of(array).boxed().toArray(Integer[]::new))
+                .toArray(Integer[][]::new);
+
+        TablePrinter printer = new TablePrinter(tableData, rows, seats);
+        printer.setHighlightPredicate(num -> (Integer)num == 1);
+        printer.print();
     }
 
     private int[][] getHallData(int hall){
