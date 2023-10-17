@@ -1,5 +1,6 @@
 package com.bondarenko.universityAssigment.lab6;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -40,16 +41,7 @@ public class Theater {
 
     public boolean checkAvailability(int hallNumber, int row, int numSeats){
         int[] rowData = getRowData(hallNumber, row);
-        int consecutiveCounter = 0;
-
-        for (int i = 0; i < seats; i++) {
-            consecutiveCounter = rowData[i] == 0 ? consecutiveCounter + 1 : 0;
-            if(consecutiveCounter == numSeats){
-                return true;
-            }
-        }
-
-        return false;
+        return getRowConsecutiveSeatsIndex(rowData, numSeats, 0) != -1;
     }
 
     public void printSeatingArrangement(int hallNumber){
@@ -60,6 +52,76 @@ public class Theater {
         TablePrinter printer = new TablePrinter(tableData, rows, seats);
         printer.setHighlightPredicate(num -> (Integer)num == 1);
         printer.print();
+    }
+
+    public static class SeatIndex{
+        public int row;
+        public int seat;
+    }
+
+    public Optional<SeatIndex> findBestAvailable(int hallNumber, int numSeats) {
+        SeatIndex bestSeat = new SeatIndex();
+        bestSeat.row = -1;
+        bestSeat.seat = -1;
+
+        int bestSpanOversize = Integer.MAX_VALUE;
+
+        for (int i = 0; i < rows; i++) {
+            int seatIndex = 0;
+            int[] rowData = getRowData(hallNumber, i);
+
+            seatIndex = getRowConsecutiveSeatsIndex(rowData, numSeats, seatIndex);
+
+            while (seatIndex != -1) {
+                int spanSize = countConsecutiveSeats(rowData, seatIndex);
+                int spanOversize = spanSize - numSeats;
+                if(spanOversize == 0){
+                    bestSeat.row = i;
+                    bestSeat.seat = seatIndex;
+                    return Optional.of(bestSeat);
+                }
+
+                if(spanOversize < bestSpanOversize){
+                    bestSeat.row = i;
+                    bestSeat.seat = seatIndex;
+                    bestSpanOversize = spanOversize;
+                }
+
+                seatIndex += spanSize + 1;
+                seatIndex = getRowConsecutiveSeatsIndex(rowData, numSeats, seatIndex);
+            }
+        }
+
+        if(bestSeat.seat == -1 || bestSeat.row == -1){
+            return Optional.empty();
+        }
+
+        return Optional.of(bestSeat);
+    }
+
+    // Finds index of such a seat in a row that have numSeats unbooked seats after it (including itself).
+    // Returns -1 if such a seat is not found
+    private int getRowConsecutiveSeatsIndex (int[] rowData, int numSeats, int startIndex) {
+        int consecutiveCounter = 0;
+        for (int i = startIndex; i < seats; i++) {
+            consecutiveCounter = rowData[i] == 0 ? consecutiveCounter + 1 : 0;
+            if(consecutiveCounter == numSeats){
+                return i - numSeats + 1;
+            }
+        }
+
+        return -1;
+    }
+
+    private int countConsecutiveSeats (int[] rowData, int startIndex) {
+        int consecutiveCounter = 0;
+        for (int i = startIndex; i < seats; i++) {
+            if(rowData[i] == 1){
+                return consecutiveCounter;
+            }
+            consecutiveCounter++;
+        }
+        return consecutiveCounter;
     }
 
     private int[][] getHallData(int hall){
