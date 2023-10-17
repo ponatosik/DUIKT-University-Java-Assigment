@@ -99,6 +99,20 @@ public class Theater {
         return Optional.of(bestSeat);
     }
 
+    public Optional<SeatIndex> autoBook(int hallNumber, int numSeats) {
+        Optional<SeatIndex> bestPlaces = findBestAvailable(hallNumber, numSeats);
+
+        if(bestPlaces.isPresent()){
+            int bestSeatsStartIndex = bestPlaces.get().seat;
+            int bestSeatsEndIndex = bestSeatsStartIndex + numSeats;
+
+            int[] seatIndexes = IntStream.rangeClosed(bestSeatsStartIndex, bestSeatsEndIndex).toArray();
+            bookSeats(hallNumber, bestPlaces.get().row, seatIndexes);
+        }
+
+        return bestPlaces;
+    }
+
     // Finds index of such a seat in a row that have numSeats unbooked seats after it (including itself).
     // Returns -1 if such a seat is not found
     private int getRowConsecutiveSeatsIndex (int[] rowData, int numSeats, int startIndex) {
