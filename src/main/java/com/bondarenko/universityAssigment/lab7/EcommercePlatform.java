@@ -44,6 +44,10 @@ public class EcommercePlatform {
             throw new ECommersObjectRegistrationException("Order with id " + orderId + " already exists");
         }
 
+        double totalPrice = order.getOrderDetails().entrySet().stream().reduce(0.0, (sum, entry) ->
+             sum + entry.getKey().getPrice() * entry.getValue(), Double::sum);
+
+        order.setTotalPrice(totalPrice);
         order.getOrderDetails().forEach(this::withdrawProduct);
         orders.put(orderId, order);
     }

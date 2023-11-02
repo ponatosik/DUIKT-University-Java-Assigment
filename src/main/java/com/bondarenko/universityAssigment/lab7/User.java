@@ -9,5 +9,5 @@ import java.util.Map;
 public class User {
     private final int id;
     private final String username;
-    private Map<Integer, Product> cart = new HashMap<>();
+    private Map<Product, Integer> cart = new HashMap<>();
 }
