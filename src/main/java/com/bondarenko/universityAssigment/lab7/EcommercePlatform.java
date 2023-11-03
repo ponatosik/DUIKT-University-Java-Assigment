@@ -1,9 +1,6 @@
 package com.bondarenko.universityAssigment.lab7;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.bondarenko.universityAssigment.lab7.exceptions.*;
 
@@ -11,6 +8,7 @@ public class EcommercePlatform {
     private final Map<Integer, User> users = new HashMap<>();
     private final Map<Integer, Product> products = new HashMap<>();
     private final Map<Integer, Order> orders = new HashMap<>();
+    private final Map<Product, Integer> purchaseStatistics = new HashMap<>();
 
     public void registerUser(User user) {
         int userId = user.getId();
@@ -56,6 +54,15 @@ public class EcommercePlatform {
         return products.values().stream().filter(product -> product.getStock() > 0).toList();
     }
 
+    public List<Product> getRecommendations(int number) {
+        return purchaseStatistics.entrySet()
+                .stream()
+                .sorted(Map.Entry.<Product, Integer>comparingByValue().reversed())
+                .limit(number)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
     public List<User> listCustomers() {
         return users.values().stream().toList();
     }
@@ -73,5 +80,12 @@ public class EcommercePlatform {
         }
 
         product.setStock(product.getStock() - quantity);
+
+        if(purchaseStatistics.containsKey(product)){
+            int newProductStatistics = purchaseStatistics.get(product) + quantity;
+            purchaseStatistics.replace(product, newProductStatistics);
+        }else {
+            purchaseStatistics.put(product, quantity);
+        }
     }
 }
