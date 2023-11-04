@@ -4,7 +4,8 @@ import lombok.*;
 
 import java.util.Comparator;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Product implements Comparable<Product>{

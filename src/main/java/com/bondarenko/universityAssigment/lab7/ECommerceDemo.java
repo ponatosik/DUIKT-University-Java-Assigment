@@ -27,6 +27,9 @@ public class ECommerceDemo {
             ));
             console.println("     Total price: " + order.getTotalPrice());
         });
+
+        console.println("Here is your recommendations (3 most popular products):");
+        platform.getRecommendations(3).forEach(product -> console.println(" - " + product.getName()));
     }
 
     private static void initializeEcommercePlatform() {
@@ -41,7 +44,9 @@ public class ECommerceDemo {
         platform.registerProducts(
                 new Product("T-shirt", 10, 100),
                 new Product("Hoodie", 10.99, 100),
-                new Product("Jacket", 30, 100));
+                new Product("Jacket", 30, 100),
+                new Product("Sweater", 9.5, 100),
+                new Product("Shirt", 8, 100));
 
         makeRandomOrder();
         makeRandomOrder();
