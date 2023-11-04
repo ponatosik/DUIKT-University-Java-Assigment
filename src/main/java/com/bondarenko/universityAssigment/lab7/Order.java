@@ -7,8 +7,14 @@ import java.util.Map;
 
 @Data
 public class Order {
-    private final int id;
-    private final int userId;
+    private int id;
+    private int userId;
     private Map<Product, Integer> orderDetails = new HashMap<>();
-    private double totalPrice;
+    public double totalPrice;
+
+    public double recalculateTotalPrice() {
+        totalPrice = orderDetails.entrySet().stream().reduce(0.0, (sum, entry) ->
+                sum + entry.getKey().getPrice() * entry.getValue(), Double::sum);
+        return totalPrice;
+    }
 }

@@ -8,10 +8,20 @@ import java.util.Comparator;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Product implements Comparable<Product>{
-    private final int id;
+    private int id;
     private String name;
     private double price;
     private int stock;
+
+    public Product(String name) {
+        this.name = name;
+    }
+
+    public Product(String name, double price, int stock) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+    }
 
     public static Comparator<Product> nameComparator(){
         return (product1, product2) -> product1.name.compareTo(product2.name);

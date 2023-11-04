@@ -33,27 +33,26 @@ public class ECommerceDemo {
         platform = new EcommercePlatform();
 
         platform.registerUsers(
-                new User(1, "John"),
-                new User(2, "Mark"),
-                new User(3, "Henry"),
-                new User(4, "Romona"));
+                new User("John"),
+                new User("Mark"),
+                new User("Henry"),
+                new User("Romona"));
 
         platform.registerProducts(
-                new Product(1, "T-shirt", 10, 100),
-                new Product(2, "Hoodie", 10.99, 100),
-                new Product(3, "Jacket", 30, 100));
+                new Product("T-shirt", 10, 100),
+                new Product("Hoodie", 10.99, 100),
+                new Product("Jacket", 30, 100));
 
-        makeRandomOrder(1);
-        makeRandomOrder(2);
-        makeRandomOrder(3);
-        makeRandomOrder(4);
-        makeRandomOrder(5);
+        makeRandomOrder();
+        makeRandomOrder();
+        makeRandomOrder();
+        makeRandomOrder();
+        makeRandomOrder();
     }
 
     private final static Random random = new Random();
-    private static void makeRandomOrder(int orderId) throws ECommersPlatformException {
-        var randomUserId = pickRandomInList(platform.listCustomers()).getId();
-        var order = new Order(orderId, randomUserId);
+    private static void makeRandomOrder() throws ECommersPlatformException {
+        var randomUser = pickRandomInList(platform.listCustomers());
 
         var orderDetails = new HashMap<Product, Integer>();
         var randomProduct = pickRandomInList(platform.listAvailableProducts());
@@ -63,9 +62,9 @@ public class ECommerceDemo {
             randomProduct = pickRandomInList(platform.listAvailableProducts());
             randomQuantity = random.nextInt(1, 3);
         }
+        randomUser.setCart(orderDetails);
 
-        order.setOrderDetails(orderDetails);
-        platform.makeOrder(order);
+        platform.makeOrderFromUserCart(randomUser);
     }
 
     private static <T> T pickRandomInList(List<T> list) {

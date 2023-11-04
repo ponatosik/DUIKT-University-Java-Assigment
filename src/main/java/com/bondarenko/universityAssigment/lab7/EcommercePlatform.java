@@ -9,11 +9,13 @@ public class EcommercePlatform {
     private final Map<Integer, Product> products = new HashMap<>();
     private final Map<Integer, Order> orders = new HashMap<>();
     private final Map<Product, Integer> purchaseStatistics = new HashMap<>();
+    private int usersIdCounter = 1, productsIdCounter = 1, ordersIdCounter = 1;
 
     public void registerUser(User user) {
-        int userId = user.getId();
-        if (users.containsKey(userId)) {
-            throw new ECommersObjectRegistrationException("User with id " + userId + " already exists");
+        int userId = generateUserId();
+        user.setId(generateOrderId());
+        if (users.containsValue(user)) {
+            throw new ECommersObjectRegistrationException("User with" + user + " already exists");
         }
 
         users.put(userId, user);
@@ -24,9 +26,10 @@ public class EcommercePlatform {
     }
 
     public void registerProduct(Product product) {
-        int productId = product.getId();
-        if (products.containsKey(productId)) {
-            throw new ECommersObjectRegistrationException("Product with id " + productId + " already exists");
+        int productId = generateProductId();
+        product.setId(productId);
+        if (products.containsValue(product)) {
+            throw new ECommersObjectRegistrationException("Product " + product + " already exists");
         }
 
         products.put(productId, product);
@@ -37,17 +40,25 @@ public class EcommercePlatform {
     }
 
     public void makeOrder(Order order) {
-        int orderId = order.getId();
-        if (orders.containsKey(orderId)) {
-            throw new ECommersObjectRegistrationException("Order with id " + orderId + " already exists");
+        int orderId = generateOrderId();
+        int userId = order.getUserId();
+        if (orders.containsValue(order)) {
+            throw new ECommersObjectRegistrationException("Order " + order + " already exists");
+        }
+        if (!users.containsKey(userId)) {
+            throw new ECommersObjectRetrievingException("User with id " + userId + " is not found");
         }
 
-        double totalPrice = order.getOrderDetails().entrySet().stream().reduce(0.0, (sum, entry) ->
-             sum + entry.getKey().getPrice() * entry.getValue(), Double::sum);
-
-        order.setTotalPrice(totalPrice);
+        order.setId(orderId);
+        order.setUserId(userId);
+        order.recalculateTotalPrice();
         order.getOrderDetails().forEach(this::withdrawProduct);
         orders.put(orderId, order);
+    }
+
+    public void makeOrderFromUserCart(User user) {
+        Order order = user.makeOrderFromCart();
+        makeOrder(order);
     }
 
     public List<Product> listAvailableProducts() {
@@ -69,6 +80,18 @@ public class EcommercePlatform {
 
     public List<Order> listOrders() {
         return orders.values().stream().toList();
+    }
+
+    private int generateUserId() {
+        return usersIdCounter++;
+    }
+
+    private int generateProductId() {
+        return productsIdCounter++;
+    }
+
+    private int generateOrderId() {
+        return ordersIdCounter++;
     }
 
     private void withdrawProduct(Product product, int quantity) {
