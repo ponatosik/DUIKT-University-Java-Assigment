@@ -1,4 +1,4 @@
-# Лабораторна робота №7
+# Лабораторна робота №, 7
 
 ## Функціональність програми
 
@@ -18,3 +18,12 @@
 3. [x] Розширені Функції:
     - [x] Сортування та фільтрація : Реалізувати `Comparable` у класі `Product`, та клас `Comparator` для сортування Товарів.
     - [x] Рекомендації для Користувача: Реалізувати функцію для рекомендації товарів користувачам.
+
+## Опис роботи
+
+1. Розроблено класи, що представляють предметну область: [Product](Product.java), [User](User.java), [Order](Order.java)
+2. Розроблено клас, що емулює платформу для здійснення онлайн-покупок: [EcommercePlatform](EcommercePlatform.java)
+3. Розроблено винятки, що можуть виникати при використанні сервісу: [ECommersPlatformException](exceptions/ECommersPlatformException.java),
+   [ECommersObjectRegistrationException](exceptions/ECommersObjectRegistrationException.java), [ECommersObjectRetrievingException](exceptions/ECommersObjectRetrievingException.java)
+4. Розроблено клас для демонстрації функціональності програми: [ECommerceDemo](ECommerceDemo.java)
+5. Розроблено модульні тести для тестування функціональності: [EcommercePlatformTest](../../../../../../test/java/com/bondarenko/universityAssigment/lab7/EcommercePlatformTest.java)
