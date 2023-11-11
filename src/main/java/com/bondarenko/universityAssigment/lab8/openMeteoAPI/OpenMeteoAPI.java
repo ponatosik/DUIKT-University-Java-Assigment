@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.*;
 
-public class OpenMeteoAPI implements WeatherMeasurementDataSource {
+public class OpenMeteoAPI {
     private final String API_URL = "https://archive-api.open-meteo.com/v1/archive?";
     private final DecimalFormat coordinatesFormat = new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.ENGLISH));
     private final OpenMeteoAPIMapper mapper;
@@ -23,7 +23,6 @@ public class OpenMeteoAPI implements WeatherMeasurementDataSource {
     }
 
     @SneakyThrows
-    @Override
     public Stream<WeatherMeasurement> getDailyMeasurements(LocalDate from, LocalDate to) {
         String requestUrl = API_URL + buildLocationsQueryParam() + "&" + buildDatesQueryParam(from, to) + "&" + getDataFormatQueryParam();
         URI requestUri = new URI(requestUrl);
