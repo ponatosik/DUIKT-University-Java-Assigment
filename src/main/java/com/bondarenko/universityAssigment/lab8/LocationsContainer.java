@@ -3,43 +3,43 @@ package com.bondarenko.universityAssigment.lab8;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class WeatherMeasurementLocationsContainer {
-    private final Set<WeatherMeasurementLocation> locations;
+public class LocationsContainer {
+    private final Set<MeasurementLocation> locations;
 
-    public WeatherMeasurementLocationsContainer(List<WeatherMeasurementLocation> locations) {
+    public LocationsContainer(List<MeasurementLocation> locations) {
         this.locations = new LinkedHashSet<>(locations);
     }
 
-    public WeatherMeasurementLocationsContainer() {
+    public LocationsContainer() {
         this.locations = new LinkedHashSet<>();
     }
 
-    public Stream<WeatherMeasurementLocation> getLocations(){
+    public Stream<MeasurementLocation> getLocations(){
         return locations.stream();
     }
 
-    public boolean registerLocation(WeatherMeasurementLocation location) {
+    public boolean registerLocation(MeasurementLocation location) {
         return locations.add(location);
     }
 
-    public boolean forgetLocation(WeatherMeasurementLocation location) {
+    public boolean forgetLocation(MeasurementLocation location) {
         return locations.remove(location);
     }
 
-    public Optional<WeatherMeasurementLocation> getLocationById(int id) {
+    public Optional<MeasurementLocation> getLocationById(int id) {
         return locations.stream().filter(location -> location.getLocationId() == id).findAny();
     }
 
-    public Optional<WeatherMeasurementLocation> getLocationByCoordinates(double latitude, double longitude) {
+    public Optional<MeasurementLocation> getLocationByCoordinates(double latitude, double longitude) {
         return getLocationByCoordinatesExact(latitude, longitude).or(() -> getLocationByCoordinatesClosest(latitude, longitude));
     }
 
-    public Optional<WeatherMeasurementLocation> getLocationByCoordinatesExact(double latitude, double longitude) {
+    public Optional<MeasurementLocation> getLocationByCoordinatesExact(double latitude, double longitude) {
         return locations.stream()
                 .filter(location -> location.getLatitude() == latitude && location.getLongitude() == longitude).findAny();
     }
 
-    public Optional<WeatherMeasurementLocation> getLocationByCoordinatesClosest(double latitude, double longitude) {
+    public Optional<MeasurementLocation> getLocationByCoordinatesClosest(double latitude, double longitude) {
         return locations.stream()
                 .min((l1, l2) -> (int) Math.round
                         (calculateDistance(l1.getLatitude(), l1.getLongitude(), latitude, longitude)

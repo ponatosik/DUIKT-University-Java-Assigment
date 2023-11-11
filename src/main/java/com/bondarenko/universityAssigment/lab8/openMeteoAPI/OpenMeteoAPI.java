@@ -14,10 +14,10 @@ public class OpenMeteoAPI {
     private final String API_URL = "https://archive-api.open-meteo.com/v1/archive?";
     private final DecimalFormat coordinatesFormat = new DecimalFormat("##.##", new DecimalFormatSymbols(Locale.ENGLISH));
     private final OpenMeteoAPIMapper mapper;
-    private final WeatherMeasurementLocationsContainer locationsContainer;
+    private final LocationsContainer locationsContainer;
 
 
-    public OpenMeteoAPI(WeatherMeasurementLocationsContainer locationsContainer) {
+    public OpenMeteoAPI(LocationsContainer locationsContainer) {
         this.locationsContainer = locationsContainer;
         mapper = new OpenMeteoAPIMapper(locationsContainer);
     }

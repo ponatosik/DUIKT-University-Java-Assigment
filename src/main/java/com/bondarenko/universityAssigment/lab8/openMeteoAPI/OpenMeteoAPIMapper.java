@@ -1,8 +1,8 @@
 package com.bondarenko.universityAssigment.lab8.openMeteoAPI;
 
 import com.bondarenko.universityAssigment.lab8.WeatherMeasurement;
-import com.bondarenko.universityAssigment.lab8.WeatherMeasurementLocation;
-import com.bondarenko.universityAssigment.lab8.WeatherMeasurementLocationsContainer;
+import com.bondarenko.universityAssigment.lab8.MeasurementLocation;
+import com.bondarenko.universityAssigment.lab8.LocationsContainer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -17,9 +17,9 @@ import java.util.stream.*;
 
 
 public class OpenMeteoAPIMapper {
-    private final WeatherMeasurementLocationsContainer locationsContainer;
+    private final LocationsContainer locationsContainer;
 
-    public OpenMeteoAPIMapper(WeatherMeasurementLocationsContainer locationsContainer) {
+    public OpenMeteoAPIMapper(LocationsContainer locationsContainer) {
         this.locationsContainer = locationsContainer;
     }
 
@@ -42,8 +42,8 @@ public class OpenMeteoAPIMapper {
         double latitude = dto.getLatitude();
         double longitude = dto.getLongitude();
 
-        Optional<WeatherMeasurementLocation> location = locationsContainer.getLocationByCoordinates(latitude, longitude);
-        int id = location.map(WeatherMeasurementLocation::getLocationId).orElse(0);
+        Optional<MeasurementLocation> location = locationsContainer.getLocationByCoordinates(latitude, longitude);
+        int id = location.map(MeasurementLocation::getLocationId).orElse(0);
 
         Date[] dates = dto.getDaily().getTime();
         Double[] temperatures = dto.getDaily().getTemperature_2m_mean();
