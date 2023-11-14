@@ -19,6 +19,10 @@ public class WeatherAggregators {
         return measurements -> measurements.stream().mapToDouble(attributeMapper).average().orElseThrow(NullPointerException::new);
     }
 
+    public static Function<List<WeatherMeasurement>, Double> sum(ToDoubleFunction<WeatherMeasurement> attributeMapper) {
+        return measurements -> measurements.stream().mapToDouble(attributeMapper).sum();
+    }
+
     public static Function<List<WeatherMeasurement>, Boolean> checkConsecutiveAppearance(Predicate<WeatherMeasurement> predicate, int number) {
         return measurements -> measurements.stream()
                 .map(measurement -> predicate.test(measurement) ? 1 : 0)
