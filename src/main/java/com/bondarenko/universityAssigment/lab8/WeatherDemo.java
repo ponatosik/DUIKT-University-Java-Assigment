@@ -123,7 +123,7 @@ public class WeatherDemo {
         histogram.print(averagePrecipitationByMonth, 15);
 
         System.out.println("\n\n\nMonth with fastest average wind speed:");
-        averageWindSpeedByMonth.entrySet().stream().max(Comparator.comparing(Map.Entry::getValue))
+        averageWindSpeedByMonth.entrySet().stream().max(Map.Entry.comparingByValue())
                 .ifPresent(entry -> System.out.println(entry.getKey() + "th month: " + entry.getValue() + "m/s"));
     }
 }
