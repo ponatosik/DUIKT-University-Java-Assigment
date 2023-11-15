@@ -22,3 +22,56 @@
    - [x] Визначте місяць з найвищою середньою швидкістю вітру.
 6. [x] Відображення результатів
    - [x] Представте аналізовані дані користувачу у вигляді таблиці або графіка.
+
+## Опис роботи
+
+### 1. Опис основних моделей
+
+
+- Роблено клас [WeatherMeasurement](WeatherMeasurement.java), що відповідає спостереженню погоди за один день на 
+   конкретній станції. Клас має відповідні поля: `date`, `locationId`, `temeperature`, `humidity`, `precipitation`, 
+   `windSpeed`.
+- Розроблено класи [MeasurementLocation](MeasurementLocation.java) та [LocationsContainer](LocationsContainer.java)
+   для зіставлення ID станції з її положенням та назвою.
+
+### 2. Взаємодія з Open-Meteo API
+
+> Для отримання метеореологічних даних обрано саме Open-Meteo API, оскільки він дозволяє робити запити 
+> без реєстрації та генерування ключів.
+
+- Розроблено клас [OpenMeteoAPI](openMeteoAPI/OpenMeteoAPI.java) для відправлення запиту до API за допомогою метода
+   `getDailyMeasurements` що приймає діапазон дат та повертає спостереження в цьому діапазоні, на вказаних локаціях.
+- Розроблено клас [OpenMeteoDTO](openMeteoAPI/OpenMeteoDTO.java) що відповідає структурі JSON файлу, яким відповідає 
+   сервер.
+- Розроблено клас [OpenMeteoAPIMapper](openMeteoAPI/OpenMeteoAPIMapper.java) для створення 
+   [WeatherMeasurement](WeatherMeasurement.java) з [OpenMeteoDTO](openMeteoAPI/OpenMeteoDTO.java) або JSON файлу.
+   Цей клас використовує бібліотек `Gson` для парсингу JSON в [OpenMeteoDTO](openMeteoAPI/OpenMeteoDTO.java).
+
+### 3. Агрегація даних
+
+> Оскільки завдання потребує однотипного аналізу даних: згрупувати за ознакою, та вирахувати певне значення з групи,
+> було розроблено абстракції для полегшення цього процесу.
+
+- Для аналізу зручного аналізу даних розроблено класи [WeatherAggregator](weatherAnalysis/WeatherAggregator.java) та
+   [WeatherAggregators](weatherAnalysis/WeatherAggregators.java), що спрощують агрегацію даних.
+- Для спрощення написання запитів агрегацій, що працюють виключно з числовими значеннями було розроблено клас
+   [NumericWeatherAggregatorFactory](weatherAnalysis/NumericWeatherAggregatorFactory.java), що дозволяє
+   писати запити агрегації за допомогою простого синтаксису. Наприклад запит `location:min(temperature)*10asc`
+   згрупує дані за локацією, знайде мінімальне значення температури в групі, відсортує у зростаючому порядку,
+   та відбере лише 10 записів.
+
+### 4. Візуалізація даних
+
+- Для візуалізації даних розроблено клас [HistogramPlotter](dataVisualization/HistogramPlotter.java), що дозволяє
+   малювати гістограми в консолі. Він приймає пари (ключ - числове значення), та будує гістограму за числовими 
+   значеннями, підписуючи колонки ключами. Процес генерацію підпису до колонки можна контролювати перевизначивши 
+   поле-функцію `setObjectNameMapper`.
+
+### 5. Тестування
+
+- Програма тестує парсинг JSON файлів в спостереження погоди в класі для тестування 
+   [OpenMeteoAPIMapperTest](../../../../../../test/java/com/bondarenko/universityAssigment/lab8/openMeteoAPI/OpenMeteoAPIMapperTest.java)
+- Програма тестує коректність агрегації даних в класі для тестування
+   [WeatherAggregatorTest](../../../../../../test/java/com/bondarenko/universityAssigment/lab8/weatherAnalysis/WeatherAggregatorTest.java)
+   
+
