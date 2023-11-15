@@ -20,26 +20,25 @@ public class WeatherDemo {
     private static final HistogramPlotter histogram = new HistogramPlotter();
     private static final NumericWeatherAggregatorFactory aggregators = new NumericWeatherAggregatorFactory();
 
-    // A bunch of random locations
     private static LocationsContainer locations = new LocationsContainer(List.of(
-            new MeasurementLocation(1, 60.1, -10.2),
-            new MeasurementLocation(2, -15.1, -72.),
-            new MeasurementLocation(3, 46.5, -35.2),
-            new MeasurementLocation(4, 64.9, 12.2),
-            new MeasurementLocation(5, -34.4, -29.2),
-            new MeasurementLocation(6, 45.2, 5.2),
-            new MeasurementLocation(7, -38.7, -23.2),
-            new MeasurementLocation(8, 21.6, 9.2),
-            new MeasurementLocation(9, 9.2, -42.2),
-            new MeasurementLocation(10, -60.8, 26.2),
-            new MeasurementLocation(11, -31.3, -22.2),
-            new MeasurementLocation(12, 5.2, 34.2),
-            new MeasurementLocation(13, -28.9, 39.2),
-            new MeasurementLocation(14, 13.3, -22.2),
-            new MeasurementLocation(15, -12.5, 12.2),
-            new MeasurementLocation(16, 50.2, -40.2),
-            new MeasurementLocation(17, 16.6, 10.2),
-            new MeasurementLocation(18, 1, -2)
+            new MeasurementLocation(1, 50.4, 30.5, "Kyiv"),
+            new MeasurementLocation(2, 40.7, -74.0, "NYC"),
+            new MeasurementLocation(3, 51.5, -0.1, "London"),
+            new MeasurementLocation(4, 52.2, 21, "Warsaw"),
+            new MeasurementLocation(5, 35, -120, "LA"),
+            new MeasurementLocation(6, 50, 15, "Viena"),
+            new MeasurementLocation(7, 35, 140, "Tokyo"),
+            new MeasurementLocation(8, 35, 135, "Kyoto"),
+            new MeasurementLocation(9, 45, 30, "Odesa"),
+            new MeasurementLocation(10, 55, 25, "Riga"),
+            new MeasurementLocation(11, 45, 25, "Sofia"),
+            new MeasurementLocation(12, 50, 25, "Lviv"),
+            new MeasurementLocation(13, 40, 15, "Rome"),
+            new MeasurementLocation(14, 45, 5, "Monaco"),
+            new MeasurementLocation(15, 50, 0, "Paris"),
+            new MeasurementLocation(16, 50, -5, "Brest"),
+            new MeasurementLocation(17, 25, -80, "Miami"),
+            new MeasurementLocation(18, 40, 50, "Baku")
     ));
 
     public static void main(String[] args) {
@@ -63,7 +62,7 @@ public class WeatherDemo {
 
         have5dayWithRainById = new WeatherAggregator<Integer, Boolean>()
                 .groupingBy(WeatherMeasurement::getLocationId)
-                .aggregating(WeatherAggregators.checkConsecutiveAppearance(weather -> weather.getPrecipitation() > 0, 5))
+                .aggregating(WeatherAggregators.checkConsecutiveAppearance(weather -> weather.getPrecipitation() > 1, 5))
                 .aggregate(measurements.stream());
 
         have5dayWithRaisingTempById = new WeatherAggregator<Integer, Boolean>()
@@ -79,22 +78,24 @@ public class WeatherDemo {
 
         // Printing data
 
-        System.out.println("\n\n\n10 Coldest stations (min temperature C) by station id");
+        histogram.setObjectNameMapper(locationId -> getLocationName((Number) locationId));
+
+        System.out.println("\n\n\n10 Coldest stations (min mean temperature C)");
         histogram.print(coldestById, 15);
 
-        System.out.println("\n\n\n10 Hottest stations (max temperature C) by station id");
+        System.out.println("\n\n\n10 Hottest stations (max mean temperature C)");
         histogram.print(hottestById, 15);
 
-        System.out.println("\n\n\n10 Wettest stations (precipitations sum mm) by station id");
+        System.out.println("\n\n\n10 Wettest stations (precipitations sum mm)");
         histogram.print(mostHumidityById, 15);
 
         System.out.println("\n\n\nStations where 5 days in a row with any precipitations found:");
         have5dayWithRainById.entrySet().stream().filter(Map.Entry::getValue)
-                .forEach(entry-> System.out.println(entry.getKey()));
+                .forEach(entry-> System.out.println(getLocationName(entry.getKey())));
 
         System.out.println("\n\n\nStations where temperature rising by 5C in 5 days found:");
         have5dayWithRaisingTempById.entrySet().stream().filter(Map.Entry::getValue)
-                .forEach(entry-> System.out.println(entry.getKey()));
+                .forEach(entry-> System.out.println(getLocationName(entry.getKey())));
 
         histogram.setObjectNameMapper(month -> getMonthName((Number) month));
 
@@ -114,5 +115,9 @@ public class WeatherDemo {
 
     private static String getMonthName(Number month) {
         return LocalDate.of(0, month.intValue(), 1).getMonth().getDisplayName(TextStyle.SHORT, Locale.US);
+    }
+
+    private static String getLocationName(Number locatonId) {
+        return locations.getLocationById(locatonId.intValue()).map(MeasurementLocation::getName).orElse("unknown location");
     }
 }

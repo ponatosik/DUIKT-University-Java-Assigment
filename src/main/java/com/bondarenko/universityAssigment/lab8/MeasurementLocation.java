@@ -7,4 +7,5 @@ public class MeasurementLocation {
     int locationId;
     double latitude;
     double longitude;
+    String name;
 }
