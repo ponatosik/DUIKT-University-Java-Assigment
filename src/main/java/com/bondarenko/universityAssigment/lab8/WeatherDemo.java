@@ -7,7 +7,9 @@ import com.bondarenko.universityAssigment.lab8.weatherAnalysis.WeatherAggregator
 import com.bondarenko.universityAssigment.lab8.weatherAnalysis.WeatherAggregators;
 
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class WeatherDemo {
@@ -94,6 +96,8 @@ public class WeatherDemo {
         have5dayWithRaisingTempById.entrySet().stream().filter(Map.Entry::getValue)
                 .forEach(entry-> System.out.println(entry.getKey()));
 
+        histogram.setObjectNameMapper(month -> getMonthName((Number) month));
+
         System.out.println("\n\n\nGlobal average temperature (C) by months");
         histogram.print(averageTempByMonth, 20);
 
@@ -105,6 +109,10 @@ public class WeatherDemo {
 
         System.out.println("\n\n\nMonth with fastest average wind speed:");
         averageWindSpeedByMonth.entrySet().stream().max(Map.Entry.comparingByValue())
-                .ifPresent(entry -> System.out.println(entry.getKey() + "th month: " + entry.getValue() + "m/s"));
+                .ifPresent(entry -> System.out.println(getMonthName(entry.getKey()) + ": " + entry.getValue() + "m/s"));
+    }
+
+    private static String getMonthName(Number month) {
+        return LocalDate.of(0, month.intValue(), 1).getMonth().getDisplayName(TextStyle.SHORT, Locale.US);
     }
 }

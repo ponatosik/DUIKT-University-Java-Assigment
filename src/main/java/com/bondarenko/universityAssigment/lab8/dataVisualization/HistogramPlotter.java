@@ -30,7 +30,7 @@ public class HistogramPlotter {
 
         int i = 0;
         for(var entry : data.entrySet()) {
-            drawColumn(i++, entry.getKey().toString(), entry.getValue().doubleValue());
+            drawColumn(i++, objectNameMapper.apply(entry.getKey()), entry.getValue().doubleValue());
         }
 
         String[] stringArray = new String[height];
