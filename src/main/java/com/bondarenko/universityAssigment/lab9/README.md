@@ -6,6 +6,6 @@
 
 ## Технічне завдання
 
-1. [ ] Використовуючи зазначене API https://fakeapi.platzi.com/en/rest/products/ отримати дані зі всіх ендпоїнтів. 
+1. [x] Використовуючи зазначене API https://fakeapi.platzi.com/en/rest/products/ отримати дані зі всіх ендпоїнтів. 
 2. [ ] Зберегти отримані дані у форматі Excel. 
 3. [ ] Покрити код jUnit/Mockito тестами.
