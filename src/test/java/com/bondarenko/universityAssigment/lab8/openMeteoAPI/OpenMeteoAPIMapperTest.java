@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 class OpenMeteoAPIMapperTest {
 
     OpenMeteoAPIMapper mapper;
-    MeasurementLocation location =  new MeasurementLocation(1,0,0);
+    MeasurementLocation location =  new MeasurementLocation(1,0,0, "Test location");
 
     @BeforeEach
     void setUp() {
