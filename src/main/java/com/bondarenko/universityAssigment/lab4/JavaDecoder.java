@@ -9,10 +9,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * JavaDecoder decodes simple encoded words.
- * <p> <b> NOTE: </b> This implementation assumes that character codes are placed in alphabetical order </p>
- * **/
 public class JavaDecoder {
     private final static List<Character> VOWELS = List.of('a', 'e', 'i', 'o', 'u', 'y');
     private final static List<Character> CONSONANTS = getConsonants();
@@ -21,12 +17,9 @@ public class JavaDecoder {
     private final static Decoder consonantDecoder = new CaesarCipherDecoder(CONSONANTS);
 
     public static String decode(String word) {
-        if(vowelsDecoder.isEncoded(word))
-        {
+        if (vowelsDecoder.isEncoded(word)) {
             return vowelsDecoder.decode(word);
-        }
-        else if(consonantDecoder.isEncoded(word))
-        {
+        } else if (consonantDecoder.isEncoded(word)) {
             return consonantDecoder.decode(word);
         }
         return word;
@@ -35,15 +28,15 @@ public class JavaDecoder {
     public static String decodeText(String text) {
         return Arrays.stream(text.split("\\s"))
                 .map(JavaDecoder::decode)
-                .collect( Collectors.joining( " " ) );
+                .collect(Collectors.joining(" "));
     }
 
     public static boolean isEncoded(String word) {
         return vowelsDecoder.isEncoded(word) || consonantDecoder.isEncoded(word);
     }
 
-    private static List<Character> getConsonants(){
-        return Stream.iterate('a', character -> (int)character <= (int)'z', character -> (char)((int) character + 1))
+    private static List<Character> getConsonants() {
+        return Stream.iterate('a', character -> (int) character <= (int) 'z', character -> (char) ((int) character + 1))
                 .filter(Predicate.not(VOWELS::contains))
                 .toList();
     }
