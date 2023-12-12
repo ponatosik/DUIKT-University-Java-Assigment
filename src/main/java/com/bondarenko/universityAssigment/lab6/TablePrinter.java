@@ -27,11 +27,11 @@ public class TablePrinter {
         hightlighPredicate = x -> false;
     }
 
-    public void setHighlightPredicate(Predicate<Object> predicate){
+    public void setHighlightPredicate(Predicate<Object> predicate) {
         hightlighPredicate = predicate;
     }
 
-    public void setPrintStream(PrintStream printStream){
+    public void setPrintStream(PrintStream printStream) {
         this.printStream = printStream;
     }
 
@@ -41,29 +41,32 @@ public class TablePrinter {
         printHeader();
     }
 
-    private void printHeader(){
+    private void printHeader() {
         StringBuilder builder = new StringBuilder();
         builder.append("\t");
-        for(int i = 0; i < width; i++) {
+        for (int i = 0; i < width; i++) {
             builder.append(" ");
-            builder.append(i);
+            builder.append(i + 1);
             builder.append("\t");
         }
         printStream.println(builder);
     }
 
-    private void printRow(int row){
+    private void printRow(int row) {
         StringBuilder builder = new StringBuilder();
         builder.append(" ");
-        builder.append(row);
-        builder.append(" |");
+        builder.append(row + 1);
+        if (row < 9) {
+            builder.append(" ");
+        }
+        builder.append("|");
 
-        for (int i = 0; i < width; i++){
+        for (int i = 0; i < width; i++) {
             builder.append(formatCell(tableData[row][i]));
         }
 
         builder.append(" | ");
-        builder.append(row);
+        builder.append(row + 1);
 
         printStream.println(builder);
     }
@@ -71,11 +74,10 @@ public class TablePrinter {
     private String formatCell(Object data) {
         StringBuilder builder = new StringBuilder();
 
-        if(hightlighPredicate.test(data)) {
+        if (hightlighPredicate.test(data)) {
             builder.append(ANSI_YELLOW_BACKGROUND);
             builder.append(ANSI_RED);
-        }
-        else {
+        } else {
             builder.append(ANSI_BLACK_BACKGROUND);
             builder.append(ANSI_GREEN);
         }
