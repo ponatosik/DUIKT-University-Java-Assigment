@@ -110,7 +110,7 @@ public class Theater {
             int bestSeatsStartIndex = bestPlaces.get().seat;
             int bestSeatsEndIndex = bestSeatsStartIndex + numSeats;
 
-            int[] seatIndexes = IntStream.rangeClosed(bestSeatsStartIndex, bestSeatsEndIndex).toArray();
+            int[] seatIndexes = IntStream.range(bestSeatsStartIndex, bestSeatsEndIndex).toArray();
             bookSeats(hallNumber, bestPlaces.get().row, seatIndexes);
         }
 
