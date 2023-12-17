@@ -25,6 +25,12 @@ public class Theater {
         int[] rowData = getRowData(hallNumber, row);
 
         for (int seat : seats) {
+            if (rowData[seat] == 1) {
+                throw new TheaterException("Seat " + seat + " at row " + row + " at hall " + hallNumber + " is already booked.");
+            }
+        }
+
+        for (int seat : seats) {
             rowData[seat] = 1;
         }
     }
