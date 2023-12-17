@@ -1,4 +1,6 @@
-package com.bondarenko.universityAssigment.lab6;
+package com.bondarenko.universityAssigment.lab6.Theater;
+
+import com.bondarenko.universityAssigment.lab6.TablePrinter;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -19,7 +21,7 @@ public class Theater {
         theaterData = new int[halls][rows][seats];
     }
 
-    public void bookSeats(int hallNumber, int row, int... seats){
+    public void bookSeats(int hallNumber, int row, int... seats) {
         int[] rowData = getRowData(hallNumber, row);
 
         for (int seat : seats) {
@@ -27,7 +29,7 @@ public class Theater {
         }
     }
 
-    public void cancelBooking(int hallNumber, int row, int... seats){
+    public void cancelBooking(int hallNumber, int row, int... seats) {
         int[] rowData = getRowData(hallNumber, row);
 
         for (int seat : seats) {
@@ -39,25 +41,21 @@ public class Theater {
         return theaterData[hallNumber][row][seat] == 1;
     }
 
-    public boolean checkAvailability(int hallNumber, int row, int numSeats){
+    public boolean checkAvailability(int hallNumber, int row, int numSeats) {
         int[] rowData = getRowData(hallNumber, row);
         return getRowConsecutiveSeatsIndex(rowData, numSeats, 0) != -1;
     }
 
-    public void printSeatingArrangement(int hallNumber){
+    public void printSeatingArrangement(int hallNumber) {
         Integer[][] tableData = Stream.of(getHallData(hallNumber))
                 .map(array -> IntStream.of(array).boxed().toArray(Integer[]::new))
                 .toArray(Integer[][]::new);
 
         TablePrinter printer = new TablePrinter(tableData, rows, seats);
-        printer.setHighlightPredicate(num -> (Integer)num == 1);
+        printer.setHighlightPredicate(num -> (Integer) num == 1);
         printer.print();
     }
 
-    public static class SeatIndex{
-        public int row;
-        public int seat;
-    }
 
     public Optional<SeatIndex> findBestAvailable(int hallNumber, int numSeats) {
         SeatIndex bestSeat = new SeatIndex();
@@ -75,13 +73,13 @@ public class Theater {
             while (seatIndex != -1) {
                 int spanSize = countConsecutiveSeats(rowData, seatIndex);
                 int spanOversize = spanSize - numSeats;
-                if(spanOversize == 0){
+                if (spanOversize == 0) {
                     bestSeat.row = i;
                     bestSeat.seat = seatIndex;
                     return Optional.of(bestSeat);
                 }
 
-                if(spanOversize < bestSpanOversize){
+                if (spanOversize < bestSpanOversize) {
                     bestSeat.row = i;
                     bestSeat.seat = seatIndex;
                     bestSpanOversize = spanOversize;
@@ -92,7 +90,7 @@ public class Theater {
             }
         }
 
-        if(bestSeat.seat == -1 || bestSeat.row == -1){
+        if (bestSeat.seat == -1 || bestSeat.row == -1) {
             return Optional.empty();
         }
 
@@ -102,7 +100,7 @@ public class Theater {
     public Optional<SeatIndex> autoBook(int hallNumber, int numSeats) {
         Optional<SeatIndex> bestPlaces = findBestAvailable(hallNumber, numSeats);
 
-        if(bestPlaces.isPresent()){
+        if (bestPlaces.isPresent()) {
             int bestSeatsStartIndex = bestPlaces.get().seat;
             int bestSeatsEndIndex = bestSeatsStartIndex + numSeats;
 
@@ -115,11 +113,11 @@ public class Theater {
 
     // Finds index of such a seat in a row that have numSeats unbooked seats after it (including itself).
     // Returns -1 if such a seat is not found
-    private int getRowConsecutiveSeatsIndex (int[] rowData, int numSeats, int startIndex) {
+    private int getRowConsecutiveSeatsIndex(int[] rowData, int numSeats, int startIndex) {
         int consecutiveCounter = 0;
         for (int i = startIndex; i < seats; i++) {
             consecutiveCounter = rowData[i] == 0 ? consecutiveCounter + 1 : 0;
-            if(consecutiveCounter == numSeats){
+            if (consecutiveCounter == numSeats) {
                 return i - numSeats + 1;
             }
         }
@@ -127,10 +125,10 @@ public class Theater {
         return -1;
     }
 
-    private int countConsecutiveSeats (int[] rowData, int startIndex) {
+    private int countConsecutiveSeats(int[] rowData, int startIndex) {
         int consecutiveCounter = 0;
         for (int i = startIndex; i < seats; i++) {
-            if(rowData[i] == 1){
+            if (rowData[i] == 1) {
                 return consecutiveCounter;
             }
             consecutiveCounter++;
@@ -138,11 +136,11 @@ public class Theater {
         return consecutiveCounter;
     }
 
-    private int[][] getHallData(int hall){
+    private int[][] getHallData(int hall) {
         return theaterData[hall];
     }
 
-    private int[] getRowData(int hall, int row){
+    private int[] getRowData(int hall, int row) {
         return theaterData[hall][row];
     }
 }

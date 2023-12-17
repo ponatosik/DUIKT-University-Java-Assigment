@@ -1,5 +1,6 @@
 package com.bondarenko.universityAssigment.lab6;
 
+import com.bondarenko.universityAssigment.lab6.Theater.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,7 +86,7 @@ class TheaterTest {
     void FindBestAvailable_HallWithBookedSeats_ShouldReturnBest(){
         int hall = 0;
         int numSeats = 3;
-        var expected = new Theater.SeatIndex();
+        var expected = new SeatIndex();
         expected.row = 0;
         expected.seat = 7;
         theater.bookSeats(hall, 0, 1, 6, 10, 15);
@@ -110,7 +111,7 @@ class TheaterTest {
     @Test
     void AutoBook_HallWithBookedSeats_ShouldReturnAndBookBest(){
         theater.bookSeats(0, 0, 1, 6, 10, 15);
-        var expected = new Theater.SeatIndex();
+        var expected = new SeatIndex();
         expected.row = 0;
         expected.seat = 7;
 
