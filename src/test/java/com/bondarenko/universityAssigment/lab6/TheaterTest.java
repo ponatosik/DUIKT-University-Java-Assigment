@@ -1,17 +1,18 @@
 package com.bondarenko.universityAssigment.lab6;
 
-import com.bondarenko.universityAssigment.lab6.Theater.*;
+import com.bondarenko.universityAssigment.lab6.Theater.SeatIndex;
+import com.bondarenko.universityAssigment.lab6.Theater.Implementation.UnsafeTheater;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TheaterTest {
-    Theater theater;
+    UnsafeTheater theater;
 
     @BeforeEach
     void setUp() {
-        theater = new Theater(5, 10, 20);
+        theater = new UnsafeTheater(5, 10, 20);
     }
 
     @Test

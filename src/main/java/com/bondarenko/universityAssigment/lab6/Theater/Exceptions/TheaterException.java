@@ -1,4 +1,4 @@
-package com.bondarenko.universityAssigment.lab6.Theater;
+package com.bondarenko.universityAssigment.lab6.Theater.Exceptions;
 
 public class TheaterException extends RuntimeException {
     public TheaterException(String errorMessage) {
