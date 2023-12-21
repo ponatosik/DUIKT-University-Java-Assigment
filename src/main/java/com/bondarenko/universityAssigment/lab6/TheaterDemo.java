@@ -7,7 +7,6 @@ import com.bondarenko.universityAssigment.lab6.Theater.Theater;
 
 import java.io.PrintStream;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class TheaterDemo {
     private static final Theater theater = new SafeTheater(5, 10, 20);
@@ -16,27 +15,23 @@ public class TheaterDemo {
         CommandLineInterfaceBuilder builder = new CommandLineInterfaceBuilder();
         PrintStream console = System.out;
 
-        builder.addCommandWithoutParameter("help", TheaterDemo::printHelp)
-                .addCommandWithoutParameter("info", TheaterDemo::printTheaterInfo)
-                .addCommandWithParameter("show", ParameterType.INTEGER, theater::printSeatingArrangement)
-                .addCommandWithParameters("book", ParameterType.INTEGER, 3, (Consumer<List<Integer>>) indexes ->
-                        theater.bookSeats(indexes.get(0), indexes.get(1), indexes.get(2)))
-                .addCommandWithParameters("cancel", ParameterType.INTEGER, 3, (Consumer<List<Integer>>) indexes ->
-                        theater.cancelBooking(indexes.get(0), indexes.get(1), indexes.get(2)))
-                .addCommandWithParameters("check", ParameterType.INTEGER, 3, (Consumer<List<Integer>>) indexes ->
-                        console.println(theater.isSeatBooked(indexes.get(0), indexes.get(1), indexes.get(2)) ? "booked" : "free"))
-                .addCommandWithParameters("available", ParameterType.INTEGER, 3, TheaterDemo::printAvailable)
-                .addCommandWithParameters("findBest", ParameterType.INTEGER, 2, TheaterDemo::printBest)
-                .addCommandWithParameters("autoBook",  ParameterType.INTEGER, 2, (Consumer<List<Integer>>) indexes ->
-                        theater.autoBook(indexes.get(0), indexes.get(1)).ifPresentOrElse( best->{} , () -> console.println("No place to book")))
+        builder.addCommand("help", TheaterDemo::printHelp)
+                .addCommand("info", TheaterDemo::printTheaterInfo)
+                .addCommand("show", ParameterType.INTEGER, theater::printSeatingArrangement)
+                .addCommand("book", ParameterType.INTEGER, (Integer hall, Integer row, Integer seat) ->
+                        theater.bookSeats(hall, row, seat))
+                .addCommand("cancel", ParameterType.INTEGER, (Integer hall, Integer row, Integer seat) ->
+                        theater.cancelBooking(hall, row, seat))
+                .addCommand("check", ParameterType.INTEGER,(Integer hall, Integer row, Integer seat) ->
+                        console.println(theater.isSeatBooked(hall, row, seat) ? "booked" : "free"))
+                .addCommand("available", ParameterType.INTEGER, TheaterDemo::printAvailable)
+                .addCommand("findBest", ParameterType.INTEGER, TheaterDemo::printBest)
+                .addCommand("autoBook",  ParameterType.INTEGER, (Integer hall, Integer seatsNumber) ->
+                        theater.autoBook(hall, seatsNumber).ifPresentOrElse(best -> {} , () -> console.println("No place to book")))
                 .addExitCommand("exit");
 
+        printHelp();
         builder.build().start();
-    }
-
-    public static void test(List<Integer> params)
-    {
-        theater.bookSeats(params.get(0), params.get(1), params.get(2));
     }
 
     public static void printTheaterInfo() {
@@ -46,26 +41,22 @@ public class TheaterDemo {
         System.out.println("Number of seats: " + theater.getSeats());
     }
 
-    public static void printAvailable(List<Integer> indexes) {
-        int seats = indexes.get(2);
-        if(theater.checkAvailability(indexes.get(0), indexes.get(1), seats)) {
+    public static void printAvailable(int hall, int row, int seats) {
+        if(theater.checkAvailability(hall, row, seats)) {
             System.out.println("Has " + seats + " seats available");
         }else {
             System.out.println("Doesn't have " + seats + " seats available");
         }
     }
 
-    public static void printBest(List<Integer> indexes) {
-        int hall = indexes.get(0);
-        int number = indexes.get(1);
-
-        var best = theater.findBestAvailable(hall, number);
+    public static void printBest(int hall, int seatsNumber) {
+        var best = theater.findBestAvailable(hall, seatsNumber);
 
         best.ifPresentOrElse(bestPlace -> {
             int seatFrom = bestPlace.getSeat();
-            int seatTo = seatFrom + number;
+            int seatTo = seatFrom + seatsNumber;
             System.out.println("Best places in hall " + hall + " : row " + bestPlace.row + " seats(" + seatFrom + " - " + seatTo + ")");
-        }, () -> System.out.println("No best place found to book" + number + "seats"));
+        }, () -> System.out.println("No best place found to book" + seatsNumber + "seats"));
     }
 
     public static void printHelp() {
