@@ -28,10 +28,10 @@ public class CommandLineInterfaceBuilder {
         return addCommand(command);
     }
 
-    public <T> CommandLineInterfaceBuilder addCommandWithParameters(String commandName, ParameterType type, int count, Consumer<T[]> action) {
+    public <T> CommandLineInterfaceBuilder addCommandWithParameters(String commandName, ParameterType type, int count, Consumer<List<T>> action) {
         ParameterType[] parameterTypes = new ParameterType[count];
         Arrays.fill(parameterTypes, type);
-        Consumer<Object[]> commandAction = params -> action.accept((T[]) params);
+        Consumer<Object[]> commandAction = params -> action.accept(Arrays.stream(params).map(x -> (T)x).toList());
 
         CommandLineCommand command = new CommandLineCommand(commandName, parameterTypes, commandAction);
         return addCommand(command);

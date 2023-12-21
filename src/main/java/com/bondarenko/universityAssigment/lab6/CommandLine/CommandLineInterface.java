@@ -99,12 +99,12 @@ public class CommandLineInterface {
         Stream<String> parameterRegexes = Arrays.stream(command.getParameterTypes()).map(this::getParameterTypePattern);
         Stream<String> patternTokens = Stream.concat(Stream.of(command.getCommandName()), parameterRegexes);
         String regexPattern = patternTokens.collect(Collectors.joining("\\s+"));
-        return Pattern.compile(regexPattern);
+        return Pattern.compile(regexPattern, Pattern.CASE_INSENSITIVE);
     }
 
     private Object castToParameter(String str, CommandLineCommand.ParameterType type) {
         return switch (type) {
-            case INTEGER -> Integer.parseInt(str);
+            case INTEGER -> Integer.valueOf(Integer.parseInt(str));
             case DECIMAL -> Double.parseDouble(str);
             case STRING -> str;
         };
