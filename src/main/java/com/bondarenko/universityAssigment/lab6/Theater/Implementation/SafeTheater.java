@@ -125,17 +125,17 @@ public class SafeTheater implements Theater {
 
     private void assertValidHallNumber(int unsafeIndex) throws InvalidBookingException{
         if(unsafeIndex < 0 || unsafeIndex >= getHalls()) {
-            throw new TheaterException("Hall " + shiftOutgoingIndex(unsafeIndex) + "doesn't exist");
+            throw new TheaterException("Hall " + shiftOutgoingIndex(unsafeIndex) + " doesn't exist");
         }
     }
     private void assertValidRowNumber(int unsafeIndex) throws InvalidBookingException{
         if(unsafeIndex < 0 || unsafeIndex >= getRows()) {
-            throw new TheaterException("Row " + shiftOutgoingIndex(unsafeIndex) + "doesn't exist");
+            throw new TheaterException("Row " + shiftOutgoingIndex(unsafeIndex) + " doesn't exist");
         }
     }
     private void assertValidSeatNumber(int unsafeIndex) throws InvalidBookingException{
         if(unsafeIndex < 0 || unsafeIndex >= getSeats()) {
-            throw new TheaterException("Seat " + shiftOutgoingIndex(unsafeIndex) + "doesn't exist");
+            throw new TheaterException("Seat " + shiftOutgoingIndex(unsafeIndex) + " doesn't exist");
         }
     }
 }
